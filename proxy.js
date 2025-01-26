@@ -7,7 +7,7 @@ const app = express();
 
 // إعداد CORS للسماح بالطلبات من نطاقات معينة
 app.use(cors({
-    origin: 'https://abdelilah1223.github.io', // هنا يمكنك تعديل النطاق الذي تود السماح له
+    origin: '*', // هنا يمكنك تعديل النطاق الذي تود السماح له
     methods: ['GET', 'POST'],  // السماح بالطرق التي تحتاجها
     allowedHeaders: ['Content-Type', 'Authorization'], // السماح برؤوس معينة
 }));
