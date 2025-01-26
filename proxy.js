@@ -2,19 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fetch = require('node-fetch');
-
 const app = express();
 
-// إعداد CORS للسماح بالطلبات من نطاقات معينة
+// CORS configuration
 app.use(cors({
-    origin: '*', // هنا يمكنك تعديل النطاق الذي تود السماح له
-    methods: ['GET', 'POST'],  // السماح بالطرق التي تحتاجها
-    allowedHeaders: ['Content-Type', 'Authorization'], // السماح برؤوس معينة
+    origin: '*', 
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(bodyParser.json()); // لتحليل بيانات JSON من الطلبات
+app.use(bodyParser.json());
 
-// نقطة النهاية للبروكسي
 app.post('/proxy', async (req, res) => {
     const targetUrl = req.body.url;
     const options = {
@@ -22,7 +20,7 @@ app.post('/proxy', async (req, res) => {
         headers: req.body.headers || {},
         body: JSON.stringify(req.body.body)
     };
-
+    
     try {
         const response = await fetch(targetUrl, options);
         const data = await response.text();
@@ -31,7 +29,6 @@ app.post('/proxy', async (req, res) => {
         res.status(500).send('Error: ' + error.message);
     }
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Proxy server running on port ${PORT}`));
